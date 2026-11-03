@@ -1,0 +1,170 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated player profile storing wallet, pets squad, and career stats",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "description": "User email address" },
+        "inGameName": { "type": "string", "description": "Custom in-game display name" },
+        "playerId": { "type": "string", "description": "Unique OwO tag like OWO-XXXX" },
+        "avatar": { "type": "string", "description": "Avatar icon identifier" },
+        "balanceINR": { "type": "number", "description": "Player virtual INR balance" },
+        "teamPetIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Selected battle squad pet IDs"
+        },
+        "unlockedPetIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of unlocked animal companions"
+        },
+        "bossWins": { "type": "number", "description": "Total boss encounters defeated" },
+        "pvpWins": { "type": "number", "description": "Multiplayer PvP duels won" },
+        "pvpLosses": { "type": "number", "description": "Multiplayer PvP duels lost" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp of last update" },
+        "createdAt": { "type": "string", "description": "ISO timestamp of account creation" }
+      },
+      "required": ["id", "inGameName", "playerId", "balanceINR"]
+    },
+    "LeaderboardEntry": {
+      "title": "LeaderboardEntry",
+      "description": "Public leaderboard record displaying top players ranked by INR balance",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID" },
+        "inGameName": { "type": "string", "description": "Player in-game handle" },
+        "playerId": { "type": "string", "description": "Unique OwO tag" },
+        "avatar": { "type": "string", "description": "Avatar icon identifier" },
+        "balanceINR": { "type": "number", "description": "Total accumulated INR balance" },
+        "bossWins": { "type": "number", "description": "Boss victories count" },
+        "pvpWins": { "type": "number", "description": "PvP duel victories count" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp of last sync" }
+      },
+      "required": ["userId", "inGameName", "playerId", "balanceINR"]
+    },
+    "MultiplayerRoom": {
+      "title": "MultiplayerRoom",
+      "description": "Real-time online multiplayer duel room for 1v1 PvP flip, pet battle, and high-low",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Room document ID" },
+        "code": { "type": "string", "description": "6-character shareable room code" },
+        "gameMode": { "type": "string", "description": "flip, battle, or highlow" },
+        "status": { "type": "string", "description": "waiting, ready, in_progress, finished" },
+        "stakeINR": { "type": "number", "description": "Rupees wagered per player" },
+        "host": { "type": "object", "description": "Host player state" },
+        "guest": { "type": "object", "description": "Guest player state" },
+        "currentTurn": { "type": "string", "description": "Active player UID" },
+        "winnerId": { "type": "string", "description": "Victor UID" },
+        "resultMessage": { "type": "string", "description": "Match outcome statement" },
+        "logs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Live match combat logs"
+        },
+        "lastUpdated": { "type": "number", "description": "Epoch timestamp" }
+      },
+      "required": ["id", "code", "gameMode", "status", "stakeINR", "host"]
+    },
+    "BattleRecord": {
+      "title": "BattleRecord",
+      "description": "Historical log of player boss fights and PvP multiplayer battles",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique battle log ID" },
+        "type": { "type": "string", "description": "Battle type: boss or pvp" },
+        "userId": { "type": "string", "description": "Player Firebase Auth UID" },
+        "playerName": { "type": "string", "description": "Player name at battle time" },
+        "opponentName": { "type": "string", "description": "Opponent name or boss title" },
+        "result": { "type": "string", "description": "win, loss, or draw" },
+        "rewardINR": { "type": "number", "description": "Rupees won or lost" },
+        "petsUsed": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Pet IDs brought into the arena"
+        },
+        "timestamp": { "type": "string", "description": "ISO timestamp of the encounter" }
+      },
+      "required": ["id", "type", "userId", "result", "timestamp"]
+    },
+    "DonationRecord": {
+      "title": "DonationRecord",
+      "description": "Log of peer-to-peer virtual INR transfers between players",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique donation record ID" },
+        "fromUserId": { "type": "string", "description": "Sender Firebase Auth UID" },
+        "fromName": { "type": "string", "description": "Sender in-game name" },
+        "toPlayerId": { "type": "string", "description": "Recipient OwO player ID" },
+        "amount": { "type": "number", "description": "Amount donated in INR" },
+        "timestamp": { "type": "string", "description": "ISO timestamp of donation" }
+      },
+      "required": ["id", "fromUserId", "toPlayerId", "amount", "timestamp"]
+    },
+    "FriendRequestDoc": {
+      "title": "FriendRequestDoc",
+      "description": "Online friend requests between players across devices",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Request ID" },
+        "fromId": { "type": "string", "description": "Sender player ID" },
+        "fromName": { "type": "string", "description": "Sender in-game name" },
+        "fromAvatar": { "type": "string", "description": "Sender avatar emoji" },
+        "toId": { "type": "string", "description": "Recipient player ID" },
+        "status": { "type": "string", "description": "pending, accepted, declined" },
+        "timestamp": { "type": "number", "description": "Epoch timestamp" }
+      },
+      "required": ["id", "fromId", "toId", "status", "timestamp"]
+    },
+    "PrivateServerDoc": {
+      "title": "PrivateServerDoc",
+      "description": "Online private server accessible via secret passcodes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Server ID" },
+        "code": { "type": "string", "description": "Secret entry code" },
+        "name": { "type": "string", "description": "Server title" },
+        "ownerId": { "type": "string", "description": "Owner player ID" },
+        "ownerName": { "type": "string", "description": "Owner name" },
+        "perkMultiplier": { "type": "number", "description": "Win bonus multiplier" },
+        "activePlayersCount": { "type": "number", "description": "Active players" },
+        "createdAt": { "type": "number", "description": "Creation timestamp" },
+        "welcomeMessage": { "type": "string", "description": "Server welcome banner" }
+      },
+      "required": ["id", "code", "name", "ownerId", "perkMultiplier"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document owned and maintained by the user"
+    },
+    "/leaderboard/{userId}": {
+      "schema": "LeaderboardEntry",
+      "description": "Global public leaderboard entries synced by player when stats change"
+    },
+    "/rooms/{roomId}": {
+      "schema": "MultiplayerRoom",
+      "description": "Real-time online multiplayer duel rooms"
+    },
+    "/battles/{battleId}": {
+      "schema": "BattleRecord",
+      "description": "Battle records from boss encounters and multiplayer arena matches"
+    },
+    "/donations/{donationId}": {
+      "schema": "DonationRecord",
+      "description": "Peer-to-peer donation logs"
+    },
+    "/friend_requests/{requestId}": {
+      "schema": "FriendRequestDoc",
+      "description": "Online friend requests between players"
+    },
+    "/private_servers/{serverId}": {
+      "schema": "PrivateServerDoc",
+      "description": "Online private servers"
+    }
+  }
+}

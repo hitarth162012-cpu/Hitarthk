@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Player Profile - Public read & write so players can save progress and search by OwO ID
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Global Leaderboard - Public read & write for all real players
+    match /leaderboard/{userId} {
+      allow read, write: if true;
+    }
+
+    // Online Multiplayer Duel Rooms (Coin Flip, Slots, HighLow, Hunt, 1v1 Pet Battle)
+    match /rooms/{roomId} {
+      allow read, write: if true;
+    }
+
+    // Real-Time Online Chat Channels & Messages (Both public and private channels)
+    match /channels/{channelId} {
+      allow read, write: if true;
+      match /messages/{messageId} {
+        allow read, write: if true;
+      }
+    }
+
+    // Legacy and Global Chat Messages
+    match /chat/{messageId} {
+      allow read, write: if true;
+    }
+
+    // Developer Secret Custom Promo Codes (Codes created by Hitarth OWO-9850)
+    match /custom_codes/{codeId} {
+      allow read, write: if true;
+    }
+
+    // Online Friend Requests
+    match /friend_requests/{requestId} {
+      allow read, write: if true;
+    }
+
+    // Online Private Servers
+    match /private_servers/{serverId} {
+      allow read, write: if true;
+    }
+
+    // Battles History (Boss & PvP Duels)
+    match /battles/{battleId} {
+      allow read, write: if true;
+    }
+
+    // Virtual Rupee Donations
+    match /donations/{donationId} {
+      allow read, write: if true;
+    }
+
+    // Default allow for nested applet collections
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

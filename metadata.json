@@ -1,0 +1,8 @@
+{
+  "name": "OwO ₹ Arcade",
+  "description": "Discord-style OwO Indian Rupee (₹) arcade featuring Coin Flip, Slots with 70% lose rate, High-Low, Animal Hunt, 3-Pet Battle Squads, Online 1v1 Multiplayer with friends, and Secret Code redemption.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
